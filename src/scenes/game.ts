@@ -48,6 +48,11 @@ export default class Demo extends Phaser.Scene {
   update(time: number, delta: number): void 
   {
     this.inputController?.update(time,delta);
-    this.gameMessageService?.update(time,delta);    
+    this.gameMessageService?.update(time,delta);  
+    
+    this.team1?.update(time, delta);
+    //this.team2?.update(time, delta);
+    //this.team3?.update(time, delta);
+    //this.team4?.update(time, delta);
   }
 }

@@ -39,6 +39,14 @@ export class CharacterNode extends GameNode
         this.phaserSprite.scale = scale;        
     }    
 
+    changeX(deltaX: number){
+        this.phaserSprite.x += deltaX;
+    }
+
+    changeY(deltaX: number){
+        this.phaserSprite.x += deltaX;
+    }
+
     start() 
     {
         
@@ -46,7 +54,7 @@ export class CharacterNode extends GameNode
     
     update(time: number, delta: number) 
     {
-        
+        this.changeX(1);
     }
 
 }
