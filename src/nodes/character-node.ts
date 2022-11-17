@@ -5,6 +5,7 @@ import { GameMessage } from "../playtime.core/value-objects/game-message";
 
 export class CharacterNode extends GameNode
 {
+    
     phaserSprite: Phaser.GameObjects.Sprite;
     constructor(        
         private scene: Phaser.Scene, 
@@ -17,13 +18,7 @@ export class CharacterNode extends GameNode
         if(!messageService) throw new Error("messageService is required");        
         if(!scene) throw new Error("scene is required");
                 
-        let startX = 500 * Math.random();
-        let startY = 500 * Math.random();
-
-        this.phaserSprite = scene.add.sprite(startX, startY, imageId);
-        this.phaserSprite.scale = 0.5
-        this.phaserSprite.x = startX;
-        this.phaserSprite.y = startY;
+        this.phaserSprite = scene.add.sprite(0, 0, imageId);        
         this.messageService.subscribe(this, MessageTopics.SceneEvents);        
     }
 
@@ -31,6 +26,19 @@ export class CharacterNode extends GameNode
         
     }
     
+    setLocation(x: number, y: number) {
+      this.phaserSprite.setX(x);
+      this.phaserSprite.setY(y);
+    }
+
+    setScale(scale: number) 
+    {
+        if(scale <= 0)
+            throw new Error("Scale should be postive");
+            
+        this.phaserSprite.scale = scale;        
+    }    
+
     start() 
     {
         
