@@ -42,6 +42,10 @@ export default class Demo extends Phaser.Scene {
     this.team3 = new CharacterNode(this, this.gameMessageService, "team3");
     this.team3.setScale(0.4);
     this.team3.setLocation(700,300);
+
+    setTimeout(() => {
+        this.team1?.move(-20);
+    }, 5000);
     
   }
 
@@ -51,8 +55,10 @@ export default class Demo extends Phaser.Scene {
     this.gameMessageService?.update(time,delta);  
     
     this.team1?.update(time, delta);
-    //this.team2?.update(time, delta);
-    //this.team3?.update(time, delta);
-    //this.team4?.update(time, delta);
+    this.team2?.update(time, delta);
+    this.team3?.update(time, delta);
+    this.team4?.update(time, delta);
+
+     
   }
 }
