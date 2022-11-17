@@ -1,3 +1,4 @@
+/*
 import { Physics } from "phaser";
 import { GameNode } from "../playtime.core/entities/game-node";
 import { MessageTopics } from "../playtime.core/enums/message-topics";
@@ -70,3 +71,4 @@ export class BoxNode extends GameNode
         }
     }
 }
+*/
