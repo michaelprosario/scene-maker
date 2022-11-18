@@ -8,11 +8,11 @@ export default class Demo extends Phaser.Scene {
   gameMessageService: GameMessageService | undefined;
   inputController: InputController | undefined;
 
-  boss: CharacterNode | undefined;
-  team1: CharacterNode | undefined;
-  team2: CharacterNode | undefined;
-  team3: CharacterNode | undefined;
-  team4: CharacterNode | undefined;  
+  boss!: CharacterNode;
+  team1!: CharacterNode;
+  team2!: CharacterNode;
+  team3!: CharacterNode;
+  team4!: CharacterNode;  
 
   constructor() {
     super('GameScene');
@@ -28,25 +28,44 @@ export default class Demo extends Phaser.Scene {
 
   create() {
     this.gameMessageService = new GameMessageService();
-    this.inputController = new InputController(this, this.gameMessageService);
-
-    //this.boss = new CharacterNode(this, this.gameMessageService, "boss");
+    this.boss = new CharacterNode(this, this.gameMessageService, "boss");
     this.team1 = new CharacterNode(this, this.gameMessageService, "team1");
-    this.team1.setScale(0.3);
-    this.team1.setLocation(400,300);
-    
     this.team2 = new CharacterNode(this, this.gameMessageService, "team2");
-    this.team2.setScale(0.4);
-    this.team2.setLocation(550,300);
-
     this.team3 = new CharacterNode(this, this.gameMessageService, "team3");
-    this.team3.setScale(0.4);
-    this.team3.setLocation(700,300);
-
-    setTimeout(() => {
-        this.team1?.move(-20);
-    }, 5000);
+    this.team4 = new CharacterNode(this, this.gameMessageService, "team4");
     
+    this.inputController = new InputController(this, this.gameMessageService as GameMessageService);
+
+    
+    this.boss.setScale(0.5);
+    this.boss.setLocation(100,300);
+
+    this.team1.setScale(0.3);
+    this.team1.setLocation(300,300);
+    
+    this.team2.setScale(0.4);
+    this.team2.setLocation(450,300);
+
+    this.team3.setScale(0.4);
+    this.team3.setLocation(600,300);
+
+    this.team4.setScale(0.4);
+    this.team4.setLocation(800,300);
+
+
+    this.team1.setAngle(0);
+    this.turnStuff();
+  }
+
+  turnStuff()
+  {
+    this.team1.turn(10);
+    this.team1.move(2);
+
+    this.team4.turn(30);
+    this.team4.move(2);
+
+    setTimeout(() => this.turnStuff(),50);
   }
 
   update(time: number, delta: number): void 

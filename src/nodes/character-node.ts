@@ -7,6 +7,7 @@ import { Point2d } from "../playtime.core/value-objects/point-2d";
 
 export class CharacterNode extends GameNode
 {
+
     
     phaserSprite: Phaser.GameObjects.Sprite;
     forwardAngle: number = 0;
@@ -61,8 +62,18 @@ export class CharacterNode extends GameNode
         this.phaserSprite.y += deltaY;        
     }
 
+    turn(angle: number)
+    {
+        this.forwardAngle = this.forwardAngle + angle;
+        this.phaserSprite.rotation = this.forwardAngle;
+    }
+
     show(){
         this.phaserSprite.visible = true;
+    }
+
+    setAngle(angle: number) {
+        this.forwardAngle = angle
     }
 
     hide(){
