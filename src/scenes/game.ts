@@ -1,6 +1,8 @@
+import { debug } from 'console';
 import Phaser from 'phaser';
 import { InputController } from '../controllers/input-controller';
 import { CharacterNode } from '../nodes/character-node';
+import { SceneCommand } from '../playtime.core/commands/commands';
 import { GameMessageService } from '../playtime.core/services/game-message-service';
 
 export default class Demo extends Phaser.Scene {
@@ -13,6 +15,8 @@ export default class Demo extends Phaser.Scene {
   team2!: CharacterNode;
   team3!: CharacterNode;
   team4!: CharacterNode;  
+  commands: SceneCommand[] = [];
+  currentCommandIndex: number = 0;
 
   constructor() {
     super('GameScene');
@@ -37,9 +41,13 @@ export default class Demo extends Phaser.Scene {
     this.inputController = new InputController(this, this.gameMessageService as GameMessageService);
 
     
-    this.boss.setScale(0.5);
-    this.boss.setLocation(100,300);
+    
+    this.commands.push(new SceneCommand(this.boss.setScale, 1000, [0.5]))
+    //this.commands.push(new SceneCommand(this.boss.setLocation, 1000, [100,300]))
 
+    this.runCommands(this.commands);
+
+    /*
     this.team1.setScale(0.3);
     this.team1.setLocation(300,300);
     
@@ -60,11 +68,28 @@ export default class Demo extends Phaser.Scene {
 
     this.team2.say(100,100, "Where's she going?", 5000);
     this.boss.say(100,100, "You don't see that every day!", 1999)
+    */
 
+    /*
     setTimeout(() => {
       this.team1.glideToPoint(300,300,5000, 360)
       this.team3.say(100,100, "Look.. she's coming back", 5000);
     }, 5000);
+    */
+  }
+
+  runCommands(commands: SceneCommand[])
+  {
+    // get current command
+    const currentCommand = commands[this.currentCommandIndex];
+
+    // do the command
+    setTimeout(() => {
+      debugger;
+      currentCommand.someMethod(...currentCommand.args);
+    }, currentCommand.timeSpan)
+    
+    // setup for the next command 
   }
 
   turnStuff()
