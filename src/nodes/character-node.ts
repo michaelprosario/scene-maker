@@ -3,7 +3,6 @@ import { MessageTopics } from "../playtime.core/enums/message-topics";
 import { MathHelper } from "../playtime.core/helpers/math-helper";
 import { GameMessageService } from "../playtime.core/services/game-message-service";
 import { GameMessage } from "../playtime.core/value-objects/game-message";
-import { Point2d } from "../playtime.core/value-objects/point-2d";
 
 export class CharacterNode extends GameNode
 {
@@ -80,6 +79,21 @@ export class CharacterNode extends GameNode
         this.phaserSprite.visible = false;
     }    
 
+    glideToPointAngle(x: number, y: number, duration: number, angle: number){        
+        this.scene.tweens.add({
+            targets: this.phaserSprite,
+            angle: angle, 
+            x: x,
+            y: y,
+            ease: "Linear", 
+            duration: duration,
+            repeat: 0,
+            yoyo: false
+        });
+
+        this.setAngle(angle);
+    }        
+    
     start() 
     {
         
