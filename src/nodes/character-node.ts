@@ -79,7 +79,7 @@ export class CharacterNode extends GameNode
         this.phaserSprite.visible = false;
     }    
 
-    glideToPointAngle(x: number, y: number, duration: number, angle: number){        
+    glideToPoint(x: number, y: number, duration: number, angle: number){        
         this.scene.tweens.add({
             targets: this.phaserSprite,
             angle: angle, 
