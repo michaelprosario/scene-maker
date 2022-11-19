@@ -56,9 +56,10 @@ export default class Demo extends Phaser.Scene {
     this.team1.setAngle(0);
     this.team1.glideToPointAngle(0,0,5000, 360)
     //this.team1.glide(300,300,5000, 360)
-    //this.turnStuff();
+    this.turnStuff();
 
     this.team2.say(100,100, "Where's she going?", 5000);
+    this.boss.say(100,100, "You don't see that every day!", 1999)
 
     setTimeout(() => {
       this.team1.glideToPointAngle(300,300,5000, 360)
@@ -68,13 +69,10 @@ export default class Demo extends Phaser.Scene {
 
   turnStuff()
   {
-    this.team1.turn(10);
-    this.team1.move(2);
-
-    this.team4.turn(30);
+    this.team4.turn(90);
     this.team4.move(2);
 
-    setTimeout(() => this.turnStuff(),50);
+    setTimeout(() => this.turnStuff(),1000);
   }
 
   update(time: number, delta: number): void 
