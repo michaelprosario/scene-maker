@@ -33,16 +33,18 @@ export interface ISceneCommand
 {
     someMethod: any;
     timeSpan: number;  
-    args: any  
+    args: any;
+    instance: any
 }
 
 export class SceneCommand implements ISceneCommand
-{
+{    
     constructor
     (
+        public instance: any,
         public someMethod: any,        
         public timeSpan: number,
-        public args: any
+        public args: Array<any>,        
     )
     {
     }
