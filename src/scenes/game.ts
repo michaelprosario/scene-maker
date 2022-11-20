@@ -1,18 +1,22 @@
+
 import Phaser from 'phaser';
 import { InputController } from '../controllers/input-controller';
 import { CharacterNode } from '../nodes/character-node';
+import { SceneCommand } from '../playtime.core/commands/commands';
 import { GameMessageService } from '../playtime.core/services/game-message-service';
 
 export default class Demo extends Phaser.Scene {
 
-  gameMessageService: GameMessageService | undefined;
-  inputController: InputController | undefined;
+  gameMessageService!: GameMessageService;
+  inputController!: InputController;
 
   boss!: CharacterNode;
   team1!: CharacterNode;
   team2!: CharacterNode;
   team3!: CharacterNode;
   team4!: CharacterNode;  
+  sceneActions: SceneCommand[] = [];
+  currentCommandIndex: number = 0;
 
   constructor() {
     super('GameScene');
@@ -28,51 +32,59 @@ export default class Demo extends Phaser.Scene {
 
   create() {
     this.gameMessageService = new GameMessageService();
+    this.inputController = new InputController(this, this.gameMessageService as GameMessageService);
+
+    this.setTheStage();   
+    const delay = 2000;
+    this.setupSceneActions(delay);
+    this.executeActions(this.sceneActions);
+  }
+
+  private setupSceneActions(delay: number) {
+    this.sceneActions = [
+      new SceneCommand(this.boss, this.boss.glideToPoint, delay, [50, 250, delay, 0]),
+      new SceneCommand(this.boss, this.boss.say, delay, [100, 100, "Any good jokes?", delay]),
+      new SceneCommand(this.team1, this.team1.say, delay, [100, 100, "What do you call it when Dumbledor farts?", delay]),
+      new SceneCommand(this.team2, this.team2.say, delay, [100, 100, "What? What?", delay]),
+      new SceneCommand(this.team1, this.team1.say, delay, [100, 100, "The ordor of the Phoenix", delay]),
+      new SceneCommand(this.boss, this.boss.say, delay, [100, 100, "Hahahaha!!", delay]),
+      new SceneCommand(this.team3, this.team3.say, delay, [100, 100, "That was so bad! @#$#@", delay]),
+      new SceneCommand(this.team4, this.team4.say, delay, [100, 100, "Me farts!", delay]),
+    ];
+  }
+
+  private setTheStage() 
+  {
     this.boss = new CharacterNode(this, this.gameMessageService, "boss");
     this.team1 = new CharacterNode(this, this.gameMessageService, "team1");
     this.team2 = new CharacterNode(this, this.gameMessageService, "team2");
     this.team3 = new CharacterNode(this, this.gameMessageService, "team3");
     this.team4 = new CharacterNode(this, this.gameMessageService, "team4");
-    
-    this.inputController = new InputController(this, this.gameMessageService as GameMessageService);
 
-    
     this.boss.setScale(0.5);
-    this.boss.setLocation(100,300);
-
+    this.boss.setLocation(-100, 300);
+    this.team1.setLocation(200, 300);
     this.team1.setScale(0.3);
-    this.team1.setLocation(300,300);
-    
+
+    this.team2.setLocation(350, 300);
     this.team2.setScale(0.4);
-    this.team2.setLocation(450,300);
-
+    this.team3.setLocation(500, 300);
     this.team3.setScale(0.4);
-    this.team3.setLocation(600,300);
-
+    this.team4.setLocation(700, 300);
     this.team4.setScale(0.4);
-    this.team4.setLocation(800,300);
-
-
-    this.team1.setAngle(0);
-    this.team1.glideToPoint(0,0,5000, 360)
-    //this.team1.glide(300,300,5000, 360)
-    this.turnStuff();
-
-    this.team2.say(100,100, "Where's she going?", 5000);
-    this.boss.say(100,100, "You don't see that every day!", 1999)
-
-    setTimeout(() => {
-      this.team1.glideToPoint(300,300,5000, 360)
-      this.team3.say(100,100, "Look.. she's coming back", 5000);
-    }, 5000);
   }
 
-  turnStuff()
+  executeActions(commands: SceneCommand[])
   {
-    this.team4.turn(90);
-    this.team4.move(2);
-
-    setTimeout(() => this.turnStuff(),1000);
+    let timeIndex = 0;
+    for(const currentCommand of commands)
+    {
+      timeIndex = timeIndex + currentCommand.timeSpan;
+      setTimeout(() => 
+      {      
+        currentCommand.someMethod.apply(currentCommand.instance, currentCommand.args);             
+      }, timeIndex)  
+    }
   }
 
   update(time: number, delta: number): void 

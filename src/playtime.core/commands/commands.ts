@@ -10,7 +10,7 @@ setAngle(angle: number)
 hide()
 glideToPointAngle(x: number, y: number, duration: number, angle: number)      
 say(width: number, height: number, quote: string, timeToDisplay: number)
-*/
+
 
 export enum SceneCommandType
 {
@@ -27,22 +27,24 @@ export enum SceneCommandType
     say
 }
 
+*/
+
 export interface ISceneCommand
 {
-    target: any;
-    type: SceneCommandType;
+    someMethod: any;
     timeSpan: number;  
-    args: any  
+    args: any;
+    instance: any
 }
 
 export class SceneCommand implements ISceneCommand
-{
+{    
     constructor
     (
-        public target: any,
-        public type: SceneCommandType,
+        public instance: any,
+        public someMethod: any,        
         public timeSpan: number,
-        public args: any
+        public args: Array<any>,        
     )
     {
     }
