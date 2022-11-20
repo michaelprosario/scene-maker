@@ -35,7 +35,7 @@ export default class Demo extends Phaser.Scene {
     this.inputController = new InputController(this, this.gameMessageService as GameMessageService);
 
     this.setTheStage();   
-    const delay = 7000;
+    const delay = 1000;
     this.setupSceneActions(delay);
     this.executeActions(this.sceneActions);
   }
@@ -50,6 +50,7 @@ export default class Demo extends Phaser.Scene {
       new SceneCommand(this.boss, this.boss.say, delay, [100, 100, "Hahahaha!!", delay]),
       new SceneCommand(this.team3, this.team3.say, delay, [100, 100, "That was so bad! @#$#@", delay]),
       new SceneCommand(this.team4, this.team4.say, delay, [100, 100, "Me farts!", delay]),
+      new SceneCommand(this.team3, this.team3.say, delay, [100, 100, "We know", delay]),
     ];
   }
 
