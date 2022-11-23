@@ -5,6 +5,6 @@ import { ShooterGame } from './scenes/shooter-game';
 
 new Phaser.Game(
   Object.assign(config, {
-    scene: [JokeScene]
+    scene: [ShooterGame]
   })
 );
