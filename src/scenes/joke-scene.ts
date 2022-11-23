@@ -5,7 +5,7 @@ import { CharacterNode } from '../nodes/character-node';
 import { SceneCommand } from '../playtime.core/commands/commands';
 import { GameMessageService } from '../playtime.core/services/game-message-service';
 
-export default class Demo extends Phaser.Scene {
+export default class JokeScene extends Phaser.Scene {
 
   gameMessageService!: GameMessageService;
   inputController!: InputController;
@@ -35,7 +35,7 @@ export default class Demo extends Phaser.Scene {
     this.inputController = new InputController(this, this.gameMessageService as GameMessageService);
 
     this.setTheStage();   
-    const delay = 1000;
+    const delay = 3000;
     this.setupSceneActions(delay);
     this.executeActions(this.sceneActions);
   }
