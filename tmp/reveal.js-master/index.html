@@ -2,50 +2,209 @@
 <html>
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>reveal.js</title>
+	<title>reveal.js</title>
 
-<link rel="stylesheet" href="dist/reset.css">
-<link rel="stylesheet" href="dist/reveal.css">
-<link rel="stylesheet" href="dist/theme/black.css">
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css">
 
-<!-- Theme used for syntax highlighted code -->
-<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
 </head>
 
 <body>
-<div class="reveal">
-<div class="slides">
-<section data-markdown>
-<textarea data-template>
-```js [1-2|3|4]
-let a = 1;
-let b = 2;
-let c = x => 1 + 2 + x;
-c(3);
+	<div class="reveal">
+		<div class="slides">
+
+			<section data-markdown>
+				<textarea data-template>
+# Shooter Game Scene
+---
+``` js
+export class ShooterGame extends Phaser.Scene {
+	cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
+	myShip: any;
+	enemies!: Phaser.Physics.Arcade.Group;
+	enemies2!: any[];
+	enemy: any;
+
+	constructor(config: any) {
+		super(config);
+	}
+
+	preload() {}
+	create() {}
+	update() {}
+
 ```
+---
+```
+create() {
+    this.cursors = this.input.keyboard.createCursorKeys();
+    this.myShip = new Ship(this, 400, 500);
+    this.add.existing(this.myShip);
+	...
+```
+---
+```
+preload() {
+    this.load.image('ship', 'assets/SpaceShooterRedux/PNG/playerShip1_orange.png');
+    this.load.image('laser', 'assets/SpaceShooterRedux/PNG/Lasers/laserBlue01.png');
+    this.load.image('enemy1', 'assets/SpaceShooterRedux/PNG/Enemies/enemyBlack3.png');
+}
+```
+---
+```
+update() {
+    if (this.cursors.left.isDown) {
+      this.myShip.moveLeft();
+    }
+
+    if (this.cursors.right.isDown) {
+      this.myShip.moveRight();
+    }
+	this.myShip.update()
+
+	// other sprites need update too!
+```
+---
+```
+export class Ship extends Phaser.GameObjects.Sprite  {
+    deltaX: number;
+    deltaY: number;
+    lasers: any[];
+    lastShot: number;
+    shotFrequency: number;
+
+    constructor(scene: Phaser.Scene, x: number , y: number) {
+        super(scene, x, y, 'ship');
+		// more setup
+    }
+
+	preUpdate(time: number, delta: number){}
+}
+```
+---
+```
+constructor(scene: Phaser.Scene, x: number , y: number) {
+	super(scene, x, y, 'ship');
+	this.setPosition(x, y);
+
+	this.scene = scene;
+	this.deltaX = 5;
+	this.deltaY = 5;
+	this.lasers = new Array();
+	this.lastShot = new Date().getTime();
+	this.shotFrequency = 250;
+}
+```
+---
+```
+moveLeft() {
+	if (this.x > 0) {
+		this.x -= this.deltaX;
+	}
+}
+
+moveRight() {
+	if (this.x < ShooterConstants.SCREEN_WIDTH) {
+		this.x += this.deltaX;
+	}
+}
+```
+---
+```
+fireLasers() {
+	var currentTime = new Date().getTime();
+	if (currentTime - this.lastShot > this.shotFrequency) {
+		var shipLaser = new ShipLaser(this.scene, this.x, this.y);
+		this.scene.add.existing(shipLaser);
+		this.lasers.push(shipLaser);
+		this.lastShot = currentTime;
+	} 
+}
+```
+---
+```
+preUpdate(time: number, delta: number) {
+	super.preUpdate(time, delta);
+
+	var i = 0;
+	var j = 0;
+	var lasersToRemove = new Array(); 
+
+	for (i = 0; i < this.lasers.length; i++) {
+		this.lasers[i].update();
+
+		if (this.lasers[i].y <= 0) {
+			lasersToRemove.push(this.lasers[i]);
+		}
+	}
+
+	for (j = 0; j < lasersToRemove.length; j++) {
+		var laserIndex = this.lasers.indexOf(lasersToRemove[j]);
+		this.lasers.splice(laserIndex, 1);
+		lasersToRemove[j].destroy();
+	}
+}
+
+
+```
+---
+
+
+```
+import { ShooterGame } from "../scenes/shooter-game";
+
+export class ShipLaser extends Phaser.GameObjects.Sprite {
+    speed: number;
+
+    constructor(scene: ShooterGame, x: number, y: number) {
+        super(scene, x, y, 'laser');
+        this.setPosition(x, y);
+        this.speed = 10;
+        this.scene = scene;
+        scene.physics.world.enable(this);
+        scene.physics.add.collider(this, scene.enemies, this.handleHit, null, this);
+    }
+
+    handleHit(laserSprite: Phaser.GameObjects.Sprite, enemySprite: Phaser.GameObjects.Sprite) {
+        enemySprite.destroy(true);
+        laserSprite.destroy(true);
+    }
+
+    preUpdate(time: number, delta: number) {
+        if(this.active == false){return;}
+        super.preUpdate(time, delta);
+        this.y -= this.speed;
+    }
+}
+```
+
 </textarea>
-</section>
-</div>
-</div>
+			</section>
 
-<script src="dist/reveal.js"></script>
-<script src="plugin/notes/notes.js"></script>
-<script src="plugin/markdown/markdown.js"></script>
-<script src="plugin/highlight/highlight.js"></script>
-<script>
-// More info about initialization & config:
-// - https://revealjs.com/initialization/
-// - https://revealjs.com/config/
-Reveal.initialize({
-	hash: true,
+		</div>
+	</div>
 
-	// Learn about plugins: https://revealjs.com/plugins/
-	plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
-});
-</script>
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+	</script>
 </body>
 
 </html>

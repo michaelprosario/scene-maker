@@ -1,7 +1,9 @@
+import { ShooterGame } from "../scenes/shooter-game";
+
 export class ShipLaser extends Phaser.GameObjects.Sprite {
     speed: number;
 
-    constructor(scene: Phaser.Scene, x: number, y: number) {
+    constructor(scene: ShooterGame, x: number, y: number) {
         super(scene, x, y, 'laser');
         this.setPosition(x, y);
         this.speed = 10;

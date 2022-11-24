@@ -1,15 +1,5 @@
 import { Enemy1 } from '../space-shooter/enemy1';
 import { Ship } from '../space-shooter/ship';
-import { ShooterConstants } from '../space-shooter/shooter-constants';
-
-export class ShooterGameConfig {
-  type: number = Phaser.AUTO;
-  width: number = ShooterConstants.SCREEN_WIDTH;
-  height: number = ShooterConstants.SCREEN_HEIGHT;
-  physics = {
-    default: 'arcade'
-  }
-};
 
 export class ShooterGame extends Phaser.Scene {
   cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
