@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<title>reveal.js</title>
+	<title>Getting Started with PhaserJS</title>
 
 	<link rel="stylesheet" href="dist/reset.css">
 	<link rel="stylesheet" href="dist/reveal.css">
@@ -21,24 +21,45 @@
 
 			<section data-markdown>
 				<textarea data-template>
+## GDG of Central Florida
+- Encourage peer to peer learning about Google technologies
+- Angular, Web, Android, Flutter, Kubernetes, Machine learning
+- Helping developers find the best version of themselves
+- Code of conduct: Be excellent to each other
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+## Meetups in Dec
+- OrlandoJS - Nov 30th at 7pm
+- Orlando Unity Developers Group - Dec 2nd at 4pm
+- Lean Coffee - Agile Orlando - 7:30am at Dec 9th
+- Orlando Devs Part - Dec 6th - 5:30pm 
+---
+# Gigs and job opportunities?
+--- 
+				</textarea>
+			</section>
+
+			<section data-background-iframe="https://devfestflorida.com" data-background-interactive></section>
+			<section data-markdown>
+				<textarea data-template>
 ## Making Games with PhaserJS
 @MichaelRosario | InspiredToEducate.NET
-
 ---
 ## Motivations for PhaserJs
 - Build with your web skills
-- Good examples in the community
-- Frequent updates
+- Good examples in the active community
 - Engaging for new makers, fun for seasoned devs
+- Concepts help you grow to other frameworks
+---
+## Examples from PhaserJs
 ---
 ## Setup TypeScript and PhaserJs2
 - [PhaserTypeScriptSetup](https://inspiredtoeducate.net/inspiredtoeducate/quick-start-for-phaser-3-and-typescript/)
 - [geocine/phaser3-rollup-typescript](https://github.com/geocine/phaser3-rollup-typescript)
-
 ---
-
----
-# Shooter Game Scene
+# Alien Shooter Demo
 ---
 ``` js
 export class ShooterGame extends Phaser.Scene {
@@ -171,8 +192,6 @@ preUpdate(time: number, delta: number) {
 
 ```
 ---
-
-
 ```
 import { ShooterGame } from "../scenes/shooter-game";
 
@@ -200,6 +219,13 @@ export class ShipLaser extends Phaser.GameObjects.Sprite {
     }
 }
 ```
+---
+# Joke Scene
+---
+References
+- https://medium.com/@michaelwesthadley/modular-game-worlds-in-phaser-3-tilemaps-1-958fc7e6bbd6
+- https://phaser.io/examples
+- https://gameprogrammingpatterns.com/contents.html
 
 </textarea>
 			</section>
